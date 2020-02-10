@@ -1,6 +1,6 @@
 package com.company;
 
-import java.util.LinkedList;
+import java.util.*;
 
 public class Dolls {
 
@@ -11,19 +11,26 @@ public class Dolls {
     */
     public static Integer dolls(int[] dolls){
         int count = 0;
-        LinkedList<Integer> dollStock = new LinkedList<Integer>();
+        Map<Integer, Integer> dollStock = new HashMap<Integer, Integer>();
         for (int i = 0; i < dolls.length; i++){
-            for (int j = i; j < dolls.length; j++) {
-                if (dolls[i] == dolls[j]) {
-                    count += 1;
+            if (dollStock.containsKey(dolls[i])) {
+                continue;
+            } else {
+                for (int j = i; j < dolls.length; j++) {
+                    if (dolls[i] == dolls[j]) {
+                        dollStock.put(dolls[i], count += 1);
+                    }
                 }
             }
-            dollStock.add(count);
             count = 0;
         }
-        int max = 0;
-        for (Integer elem : dollStock) {
-            if(elem > max) {
+        Integer max = 0;
+        Set dollSet = dollStock.entrySet();
+        Iterator iter = dollSet.iterator();
+        while (iter.hasNext()) {
+            Map.Entry me = (Map.Entry) iter.next();
+            Integer elem = (Integer) me.getValue();
+            if (max < elem) {
                 max = elem;
             }
         }
